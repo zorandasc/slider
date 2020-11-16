@@ -1,0 +1,151 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  position: relative;
+}
+html, body{
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    font-size: 3vmin;
+    
+}
+
+html{
+    background: #151515;
+    color: #fff;
+    overflow: hidden;
+}
+
+body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.slides{
+    display: grid;
+    
+}
+
+
+button{
+    
+    appearance: none;
+    background: transparent;
+    border: none;
+    color: whitesmoke;
+    position: absolute;
+    top: 30%;
+    z-index: 5;
+    width: 5rem;
+    height: 5rem;
+    opacity: 0.7;
+    transition: opacity 0.3s;
+    font-size: 2rem;
+}
+
+button:hover{
+    opacity: 1;
+}
+
+button:focus {
+      outline: none;
+    }
+
+button:first-child{
+    left: -50%;
+}
+button:last-child{
+    right: -50%;
+}
+
+.slide{
+    grid-area: 1 / -1;
+}
+
+.slideContent{
+    width: 30vw;
+    /*JA DODDAO MAX-WIDH*/
+    max-width: 25vw;
+    height: 40vw;
+    /*JA DODDAO MAX-HEIGHT*/
+    max-height: 35vw;
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    opacity: 0.7;
+    display: grid;
+    align-content: center;
+    transform-style: preserve-3d;
+    transform: perspective(1000px) translateX(calc(100% * var(--offset)))
+    rotateY(calc(-45deg * var(--dir)));
+    transition: transform 0.5s ease-in-out;
+}
+.slideContentInner{
+    transform-style: preserve-3d;
+    transform: translateZ(2rem);
+    transition: opacity 0.3s linear;
+    text-shadow: 0 0.1rem 1rem #000;
+    opacity: 0;
+}
+.slideSubtitle,
+  .slideTitle{
+      font-size: 2rem;
+      font-weight: normal;
+      letter-spacing: 0.2ch;
+      text-transform: uppercase;
+      margin: 0;
+  }
+  .slideSubtitle::before{
+    content: "— ";
+  }
+
+.slideDescription{
+    margin: 0;
+    font-size: 0.8rem;
+    letter-spacing: 0.2ch;
+}
+.slideBackground{
+    position: fixed;
+    top:0;
+    bottom: 0;
+    left: -10%;
+    right: -10%;
+    z-index: -1;
+    background-size: cover;
+    background-position: center center;
+    opacity: 0;
+    transition: opacity 0.3s linear, transform 0.3s ease-in-out;
+    pointer-events: none;
+    transform: translateX(calc(10% * var(--dir)));
+  
+}
+.slide[data-active] {
+    z-index: 2;
+    pointer-events: auto;
+}
+
+.slide[data-active] .slideBackground {
+    opacity: 0.2;
+}
+.slide[data-active] .slideContentInner {
+    opacity: 1;
+}
+.slide[data-active] .slideContent{
+    /*POSTO SU px i py KOJE DOBIJAMO OD REACTA IZMEDJU 0 i 1  
+    mi oduzimamo od tig brojeva 0.5, da bi opseg bio imedju 
+    -0.5 i 0.5
+    */
+    --x:calc(var(--px) - 0.5);
+    --y:calc(var(--py) - 0.5);
+    opacity: 1;
+    transform: perspective(1000px);
+}
+
+.slide[data-active] .slideContent:hover{
+    transition: none;
+    transform: perspective(1000px) rotateY(calc(var(--x) * 45deg)) rotateX(calc(var(--y) * 45deg));
+}
