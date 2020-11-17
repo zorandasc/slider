@@ -1,5 +1,5 @@
 import React from "react"
-
+import Navbar from "./components/Navbar"
 
 const slides = [
   {
@@ -165,19 +165,22 @@ export default function Home() {
   console.log("slides.lengt", slides.length)
   console.log("state.slideIndex", state.slideIndex)
   return (
-    <div className="slides">
-      <button onClick={() => dispatch({ type: "PREV" })}>{"<"}</button>
-      {[...slides, ...slides, ...slides].map((slide, i) => {
-        //SVAK SLIKA CE IMATI SVOJ OFSET,
-        //PRI CEMU NA POCETKIU ZADNJA SLIKA U NIZU IMA OFSET 0
-        //A SAM PRIKAZA POJEDACNIH SLIKA OSTAVLJAMO CSS
-        //DA NA OSNOVU ofseta ODLUCI IZGLED
-        let offset = slides.length + (state.slideIndex - i);
-        console.log("i", i)
-        console.log("offset", offset)
-        return <Slide slide={slide} offset={offset} key={i}></Slide>
-      })}
-      <button onClick={() => { dispatch({ type: "NEXT" }) }}>{">"}</button>
-    </div>
+    <>
+      <Navbar></Navbar>
+      <div className="slides">
+        <button onClick={() => dispatch({ type: "PREV" })}>{"<"}</button>
+        {[...slides, ...slides, ...slides].map((slide, i) => {
+          //SVAK SLIKA CE IMATI SVOJ OFSET,
+          //PRI CEMU NA POCETKIU ZADNJA SLIKA U NIZU IMA OFSET 0
+          //A SAM PRIKAZA POJEDACNIH SLIKA OSTAVLJAMO CSS
+          //DA NA OSNOVU ofseta ODLUCI IZGLED
+          let offset = slides.length + (state.slideIndex - i);
+          console.log("i", i)
+          console.log("offset", offset)
+          return <Slide slide={slide} offset={offset} key={i}></Slide>
+        })}
+        <button onClick={() => { dispatch({ type: "NEXT" }) }}>{">"}</button>
+      </div>
+    </>
   )
 }
